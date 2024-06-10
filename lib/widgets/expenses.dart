@@ -52,10 +52,18 @@ class _ExpensesState extends State<Expenses> {
         children: [
           const Text('Chart'),
           Expanded(
-            child: ExpensesList(
-              expenses: _registeredExpenses,
-              onRemoveExpense: _removeExpense,
-            ),
+            child: _registeredExpenses.isEmpty
+                ? const Center(
+                    child: Text(
+                    'No expenses to show 📪',
+                    style: TextStyle(
+                      fontSize: 16,
+                    ),
+                  ))
+                : ExpensesList(
+                    expenses: _registeredExpenses,
+                    onRemoveExpense: _removeExpense,
+                  ),
           )
         ],
       ),
