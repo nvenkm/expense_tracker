@@ -157,7 +157,7 @@ class _NewExpenseState extends State<NewExpense> {
                   });
                 },
               ),
-              Spacer(),
+              const Spacer(),
               ElevatedButton(
                 onPressed: _submitExpenseForm,
                 child: const Text('Save expense'),

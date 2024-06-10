@@ -21,9 +21,25 @@ class _ExpensesState extends State<Expenses> {
   }
 
   _removeExpense(Expense expense) {
+    final index = _registeredExpenses.indexOf(expense);
     setState(() {
       _registeredExpenses.remove(expense);
     });
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        duration: const Duration(seconds: 3),
+        content: const Text('Expense deleted'),
+        action: SnackBarAction(
+          label: 'Undo',
+          onPressed: () {
+            setState(() {
+              _registeredExpenses.insert(index, expense);
+            });
+          },
+        ),
+      ),
+    );
   }
 
 //function to open the add expense overlay
