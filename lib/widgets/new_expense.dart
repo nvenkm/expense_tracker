@@ -1,5 +1,6 @@
 import 'package:expense_tracker/models/expense.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
 final formatter = DateFormat.yMd();
@@ -39,6 +40,34 @@ class _NewExpenseState extends State<NewExpense> {
     setState(() {
       _selectedDate = date;
     });
+  }
+
+  void _submitExpenseForm() {
+    final enteredAmount = double.tryParse(_amountController.text);
+    final isAmountInvalid = enteredAmount == null || enteredAmount <= 0;
+    if (_titleController.text.trim().isEmpty ||
+        isAmountInvalid ||
+        _selectedDate == null) {
+      //show error message
+      showDialog(
+        context: context,
+        builder: (ctx) {
+          return AlertDialog(
+            title: const Text('Invalid input'),
+            content: const Text("Please check your input values"),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(ctx);
+                },
+                child: const Text('Okay'),
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    }
   }
 
   @override
@@ -113,10 +142,7 @@ class _NewExpenseState extends State<NewExpense> {
               ),
               Spacer(),
               ElevatedButton(
-                onPressed: () {
-                  print(_titleController.text);
-                  print(_amountController.text);
-                },
+                onPressed: _submitExpenseForm,
                 child: const Text('Save expense'),
               ),
               ElevatedButton(
