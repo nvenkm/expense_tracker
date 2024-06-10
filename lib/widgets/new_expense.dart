@@ -6,7 +6,10 @@ import 'package:intl/intl.dart';
 final formatter = DateFormat.yMd();
 
 class NewExpense extends StatefulWidget {
-  const NewExpense({super.key});
+  const NewExpense({super.key, required this.onAddExpense});
+
+  final void Function(Expense expense) onAddExpense;
+
   @override
   State<NewExpense> createState() {
     return _NewExpenseState();
@@ -68,12 +71,26 @@ class _NewExpenseState extends State<NewExpense> {
       );
       return;
     }
+
+    //add new expense
+
+    var newExpense = Expense(
+      title: _titleController.text,
+      amount: double.tryParse(_amountController.text)!,
+      date: _selectedDate!,
+      category: _selectedCategory,
+    );
+
+    widget.onAddExpense(newExpense);
+
+    //close the modal
+    Navigator.pop(context);
   }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.fromLTRB(16.0, 48.0, 16.0, 16.0),
       child: Column(
         children: [
           //TextField for title
